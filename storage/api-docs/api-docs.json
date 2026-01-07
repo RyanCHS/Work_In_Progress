@@ -1,0 +1,2433 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Work In Progress",
+    "description": "Dokumentasi API untuk proses inspeksi, SWA, dan validasi",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Register a new user",
+        "operationId": "registerUser",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": ["Username", "Password", "UserGroup", "Name"],
+                "properties": {
+                  "Username": {
+                    "type": "string",
+                    "example": "john.doe"
+                  },
+                  "Password": {
+                    "type": "string",
+                    "example": "secret123"
+                  },
+                  "UserGroup": {
+                    "type": "string",
+                    "example": "admin"
+                  },
+                  "Name": {
+                    "type": "string",
+                    "example": "John Doe"
+                  },
+                  "IsActivated": {
+                    "type": "boolean",
+                    "example": "false"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User created successfully"
+                    },
+                    "user": {
+                      "properties": {
+                        "UserId": {
+                          "type": "string",
+                          "format": "uuid",
+                          "example": "123e4567-e89b-12d3-a456-426614174000"
+                        },
+                        "Username": {
+                          "type": "string",
+                          "example": "john.doe"
+                        },
+                        "UserGroup": {
+                          "type": "string",
+                          "example": "admin"
+                        },
+                        "IsActivated": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error"
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Login user dengan username dan password",
+        "operationId": "dd51a484b7fa0f97c7680fdbde14cf5f",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": ["Username", "Password"],
+                "properties": {
+                  "Username": {
+                    "type": "string",
+                    "example": "bhuedies"
+                  },
+                  "Password": {
+                    "type": "string",
+                    "example": "secret123"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login berhasil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "access_token": {
+                      "type": "string"
+                    },
+                    "token_type": {
+                      "type": "string",
+                      "example": "bearer"
+                    },
+                    "expires_in": {
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Logout pengguna",
+        "operationId": "df9bdc6c7a6d9f20b983526b2ec0f698",
+        "responses": {
+          "200": {
+            "description": "Berhasil logout",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Berhasil logout"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/auth/me": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Get authenticated user",
+        "operationId": "b5de204f5e452ef51327c691aa99e77c",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "UserId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "Username": {
+                      "type": "string"
+                    },
+                    "UserGroup": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Refresh token JWT",
+        "operationId": "e7ab7446393758bb71fd1946a349e500",
+        "responses": {
+          "200": {
+            "description": "Token berhasil diperbarui",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "access_token": {
+                      "type": "string"
+                    },
+                    "token_type": {
+                      "type": "string"
+                    },
+                    "expires_in": {
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/inspection/template": {
+      "get": {
+        "tags": ["Inspection"],
+        "summary": "Get inspection template data by ID and optional isDraft",
+        "operationId": "viewInspectionTemplate",
+        "parameters": [
+          {
+            "name": "IsDraft",
+            "in": "query",
+            "description": "Filter by active isDraft (true/false)",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Template data retrieved successfully"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Template not found"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": ["Inspection"],
+        "summary": "Create a new inspection template",
+        "operationId": "ddc67411221a4d27718545e8f7b6e22d",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "Content",
+                  "Description",
+                  "IsActivated",
+                  "CreatedBy"
+                ],
+                "properties": {
+                  "Content": {
+                    "type": "object",
+                    "example": {
+                      "field": "value"
+                    }
+                  },
+                  "Description": {
+                    "type": "string",
+                    "example": "Template Deskripsi"
+                  },
+                  "IsActivated": {
+                    "type": "boolean",
+                    "example": true
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Template created successfully"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/inspection/template-content/{templateId}": {
+      "get": {
+        "tags": ["Inspection"],
+        "summary": "Get full template content by ID",
+        "operationId": "inspectionTemplateById",
+        "parameters": [
+          {
+            "name": "templateId",
+            "in": "path",
+            "description": "Template ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Template content retrieved successfully"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Template not found"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/inspection/template/{templateId}": {
+      "put": {
+        "tags": ["Inspection"],
+        "summary": "Update an existing inspection template",
+        "operationId": "db014741e6dd47898dd1eef747249ad3",
+        "parameters": [
+          {
+            "name": "templateId",
+            "in": "path",
+            "description": "Template ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "Content": {
+                    "type": "object",
+                    "example": {
+                      "field": "value"
+                    }
+                  },
+                  "Description": {
+                    "type": "string",
+                    "example": "Template Deskripsi"
+                  },
+                  "IsActivated": {
+                    "type": "boolean",
+                    "example": true
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Template updated successfully"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["Inspection"],
+        "summary": "Delete an inspection template",
+        "operationId": "f8648bda45ae371f7b4daaa802bac12b",
+        "parameters": [
+          {
+            "name": "templateId",
+            "in": "path",
+            "description": "Template ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Template deleted successfully"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/inspection/templates": {
+      "get": {
+        "tags": ["Inspection"],
+        "summary": "Get all inspection templates created by current user",
+        "operationId": "c5556633d88987ea1c8ae61f169c01ba",
+        "parameters": [
+          {
+            "name": "perPage",
+            "in": "query",
+            "description": "Number of templates per page",
+            "schema": {
+              "type": "integer",
+              "example": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of inspection templates",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/inspection/template/{templateId}/enabled": {
+      "put": {
+        "tags": ["Inspection"],
+        "summary": "Enable or disable an inspection template",
+        "operationId": "99d6ed4187c60502f7f75685279a8637",
+        "parameters": [
+          {
+            "name": "templateId",
+            "in": "path",
+            "description": "Template ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": ["IsActivated"],
+                "properties": {
+                  "IsActivated": {
+                    "type": "boolean",
+                    "example": true
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Template activation updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/inspection": {
+      "post": {
+        "tags": ["Inspection"],
+        "summary": "Create a new inspection record",
+        "operationId": "e5a511c19534d4f08026b74f66818dcb",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "SWAPIC",
+                  "Location",
+                  "WorkType",
+                  "InspectionDate",
+                  "WorkingPermit",
+                  "InspectionForm",
+                  "isDraft",
+                  "CreatedBy"
+                ],
+                "properties": {
+                  "SWAPIC": {
+                    "type": "string",
+                    "example": "SW-001"
+                  },
+                  "Location": {
+                    "type": "string",
+                    "example": "Site A"
+                  },
+                  "WorkType": {
+                    "type": "string",
+                    "example": "Electrical"
+                  },
+                  "InspectionDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2024-05-10T10:00:00Z"
+                  },
+                  "InspectionForm": {
+                    "type": "object",
+                    "example": {
+                      "field": "value"
+                    }
+                  },
+                  "IsDraft": {
+                    "type": "boolean",
+                    "example": true
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Inspection created successfully"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/inspection/{inspectionId}": {
+      "get": {
+        "tags": ["Inspection"],
+        "summary": "Get inspection details by ID",
+        "operationId": "bfde84d2b6c3a3bcb3ae22c9e7e6ecc9",
+        "parameters": [
+          {
+            "name": "inspectionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Inspection details"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": ["Inspection"],
+        "summary": "Update an existing inspection",
+        "operationId": "4b837ea59b248682ae11e02dccb7700e",
+        "parameters": [
+          {
+            "name": "inspectionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "SWAPIC",
+                  "Location",
+                  "WorkType",
+                  "InspectionDate",
+                  "WorkingPermit",
+                  "InspectionForm",
+                  "isDraft"
+                ],
+                "properties": {
+                  "SWAPIC": {
+                    "type": "string",
+                    "example": "SW-001"
+                  },
+                  "Location": {
+                    "type": "string",
+                    "example": "Site A"
+                  },
+                  "WorkType": {
+                    "type": "string",
+                    "example": "Electrical"
+                  },
+                  "InspectionForm": {
+                    "type": "object",
+                    "example": {
+                      "field": "value"
+                    }
+                  },
+                  "IsDraft": {
+                    "type": "boolean",
+                    "example": true
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Inspection updated successfully"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["Inspection"],
+        "summary": "Delete an inspection by ID",
+        "operationId": "02294e5a6e7970e80a8d7ae289732327",
+        "parameters": [
+          {
+            "name": "inspectionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Inspection deleted"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/inspection/by-user": {
+      "get": {
+        "tags": ["Inspection"],
+        "summary": "View inspection list based on authenticated user's role",
+        "operationId": "e0083835d874ad4099ac276f465b0510",
+        "parameters": [
+          {
+            "name": "per_page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 10
+            }
+          },
+          {
+            "name": "IsDraft",
+            "in": "query",
+            "description": "Filter by active isDraft (true/false)",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Inspections retrieved"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/inspection/chart": {
+      "get": {
+        "tags": ["Inspection"],
+        "summary": "Get inspection chart grouped by time period",
+        "description": "Return inspection count grouped by day, week, month, or year for authenticated user",
+        "operationId": "a9282dc6a134d75c1ec7fc4efceebf1c",
+        "parameters": [
+          {
+            "name": "group_by",
+            "in": "query",
+            "description": "Group chart data by time period",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["day", "week", "month", "year"],
+              "example": "day"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Inspections retrieved"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/notifications": {
+      "get": {
+        "tags": ["Notification"],
+        "summary": "Ambil daftar notifikasi untuk user saat ini",
+        "operationId": "5136df02a15d24894091df1c403b5322",
+        "parameters": [
+          {
+            "name": "per_page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 10
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Limit data",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 3
+            }
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "description": "Mode Limit",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Daftar notifikasi"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/notifications/read": {
+      "post": {
+        "tags": ["Notification"],
+        "summary": "Tandai notifikasi sebagai dibaca",
+        "operationId": "f077a3cfe0b16d7be0d443606ebd81fb",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": ["notifId"],
+                "properties": {
+                  "notifId": {
+                    "type": "string",
+                    "example": "uuid-notifikasi"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Status berhasil"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/user/getuserbygroup/{groupUser}": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get users by group",
+        "operationId": "getUserByGroup",
+        "parameters": [
+          {
+            "name": "groupUser",
+            "in": "path",
+            "description": "The name of the user group",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Safety Advisor"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Users retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User get data successfully"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Users not found or already deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User get data not found or already deleted"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/user": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get all users",
+        "operationId": "getAllUsers",
+        "parameters": [
+          {
+            "name": "perPage",
+            "in": "query",
+            "description": "Number of templates per page",
+            "schema": {
+              "type": "integer",
+              "example": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User get data successfully"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "UserId": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "Username": {
+                            "type": "string",
+                            "example": "ekoagung"
+                          },
+                          "UserGroup": {
+                            "type": "string",
+                            "example": "Safety Advisor"
+                          },
+                          "user_detail": {
+                            "properties": {
+                              "Name": {
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      }
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/user/{userId}": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get user detail by ID",
+        "operationId": "getUserById",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User ID (UUID)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "d547dfc0-5177-4b64-a491-3e41f4c3a312"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User detail retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User get data successfully"
+                    },
+                    "data": {
+                      "properties": {
+                        "UserId": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "Name": {
+                          "type": "string"
+                        },
+                        "Email": {
+                          "type": "string"
+                        },
+                        "Address": {
+                          "type": "string"
+                        },
+                        "City": {
+                          "type": "string"
+                        },
+                        "Phone": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": ["User"],
+        "summary": "Update user details",
+        "operationId": "updateUser",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User ID (UUID)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "Name": {
+                    "type": "string",
+                    "example": "John Doe"
+                  },
+                  "Email": {
+                    "type": "string",
+                    "example": "john@example.com"
+                  },
+                  "Address": {
+                    "type": "string",
+                    "example": "Jl. Merdeka 123"
+                  },
+                  "City": {
+                    "type": "string",
+                    "example": "Jakarta"
+                  },
+                  "Phone": {
+                    "type": "string",
+                    "example": "081234567890"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User updated successfully"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["User"],
+        "summary": "Delete user by ID (Admin only)",
+        "operationId": "fb8b15b1ba4e99d763455d403adc96ec",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User ID (UUID)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "properties": {
+                        "UserId": {
+                          "type": "string"
+                        },
+                        "Username": {
+                          "type": "string"
+                        },
+                        "UserGroup": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Only Administrator can delete users"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/user/{userId}/change-password": {
+      "put": {
+        "tags": ["User"],
+        "summary": "Change user password",
+        "operationId": "changePassword",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User ID (UUID)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": ["OldPassword", "Password"],
+                "properties": {
+                  "OldPassword": {
+                    "type": "string",
+                    "example": "oldpassword123"
+                  },
+                  "Password": {
+                    "type": "string",
+                    "example": "newpassword456"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password changed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Password changed successfully"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/user/{userId}/enabled": {
+      "put": {
+        "tags": ["User"],
+        "summary": "Activate or deactivate specific user by ID (Admin only)",
+        "operationId": "c6b321f30249d92ec05795c53bdab8dc",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User ID to activate/deactivate",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": ["IsActivated"],
+                "properties": {
+                  "IsActivated": {
+                    "type": "boolean",
+                    "example": true
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User activation updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "properties": {
+                        "UserId": {
+                          "type": "string"
+                        },
+                        "Username": {
+                          "type": "string"
+                        },
+                        "IsActivated": {
+                          "type": "boolean"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/user/groups": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get all user groups (except Administrator)",
+        "operationId": "0e058aed23e060be4e3a711c571c264e",
+        "responses": {
+          "200": {
+            "description": "List of user groups",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "UserGroup": {
+                            "type": "string",
+                            "example": "Supervisor"
+                          }
+                        },
+                        "type": "object"
+                      }
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/work-in-progress/by-user": {
+      "get": {
+        "tags": ["Work In Progress"],
+        "summary": "Get Work In Progress list for authenticated user",
+        "operationId": "b26be4cfac6744542e089dee2fa9a6a1",
+        "parameters": [
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Jumlah item per halaman",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "properties": {
+                        "current_page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "total": {
+                          "type": "integer",
+                          "example": 25
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/work-in-progress/verification/{WIPId}": {
+      "post": {
+        "tags": ["Work In Progress"],
+        "summary": "Verifikasi dan simpan data Stop Work Authority",
+        "operationId": "09e49238a423cc26683f988881f3cd1d",
+        "parameters": [
+          {
+            "name": "WIPId",
+            "in": "path",
+            "description": "ID dari Work In Progress",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": ["InputInspection", "isVerified"],
+                "properties": {
+                  "InputInspection": {
+                    "type": "object",
+                    "example": {
+                      "field": "value"
+                    }
+                  },
+                  "IsVerified": {
+                    "type": "boolean",
+                    "example": true
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Verifikasi berhasil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/work-in-progress/swa/{WIPId}": {
+      "get": {
+        "tags": ["Work In Progress"],
+        "summary": "Lihat daftar SWA berdasarkan WIP",
+        "operationId": "f0d2961ecdd7244449bba34a1d8203e1",
+        "parameters": [
+          {
+            "name": "WIPId",
+            "in": "path",
+            "description": "ID dari Work In Progress",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "IsWIP",
+            "in": "query",
+            "description": "Filter IsWIP (true/false)",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Jumlah data per halaman",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Data SWA berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": ["Work In Progress"],
+        "summary": "Create Stop Work Authority (SWA)",
+        "operationId": "bfb84f79ffb0881cd86078786dd4c6e8",
+        "parameters": [
+          {
+            "name": "WIPId",
+            "in": "path",
+            "description": "ID dari Work In Progress",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "InputInspection (JSON string) dan file upload untuk masing-masing field",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": ["InputInspection"],
+                "properties": {
+                  "InputInspection": {
+                    "description": "JSON string dari input inspeksi",
+                    "type": "string",
+                    "example": "[{'key':'sop','answer':'Comply'},{'key':'working_permit','answer':'Comply'}]"
+                  },
+                  "IsDraft": {
+                    "description": "SWA draft atau tidak",
+                    "type": "boolean",
+                    "example": "true"
+                  },
+                  "FileInput[0][key]": {
+                    "description": "Key tag untuk file",
+                    "type": "string",
+                    "example": "sop"
+                  },
+                  "FileInput[0][fileinput]": {
+                    "description": "File PDF untuk key",
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "FileInput[1][key]": {
+                    "type": "string",
+                    "example": "working_permit"
+                  },
+                  "FileInput[1][fileinput]": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "SWA berhasil dibuat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/work-in-progress/swa/{SWAId}/update": {
+      "post": {
+        "tags": ["Work In Progress"],
+        "summary": "Update Stop Work Authority (SWA)",
+        "operationId": "451b8b42d49681f9075d90f1e1be4d00",
+        "parameters": [
+          {
+            "name": "SWAId",
+            "in": "path",
+            "description": "ID dari SWA yang ingin diupdate",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Form input inspeksi dan file jika ada perubahan",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": ["InputInspection", "IsDraft"],
+                "properties": {
+                  "InputInspection": {
+                    "description": "JSON string dari input inspeksi",
+                    "type": "string",
+                    "example": "[{'key':'sop','answer':'Comply'}]"
+                  },
+                  "IsDraft": {
+                    "description": "Tandai apakah masih draft atau final",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "FileInput[0][key]": {
+                    "type": "string",
+                    "example": "sop"
+                  },
+                  "FileInput[0][fileinput]": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "FileInput[1][key]": {
+                    "type": "string",
+                    "example": "working_permit"
+                  },
+                  "FileInput[1][fileinput]": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "SWA berhasil diperbarui",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/work-in-progress/swa/{SWAId}": {
+      "delete": {
+        "tags": ["Work In Progress"],
+        "summary": "Menghapus Stop Work Authority (SWA)",
+        "operationId": "595f1de99916dce84a198d03584ea1bd",
+        "parameters": [
+          {
+            "name": "SWAId",
+            "in": "path",
+            "description": "ID dari SWA yang akan dihapus",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SWA berhasil dihapus",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/work-in-progress/swa/detail/{inspectionId}": {
+      "get": {
+        "tags": ["Work In Progress"],
+        "summary": "Lihat data SWA berdasarkan Inspection ID",
+        "operationId": "e85582a14fd9f0debc02c12ddbd9f485",
+        "parameters": [
+          {
+            "name": "inspectionId",
+            "in": "path",
+            "description": "ID dari Inspection",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Data SWA ditemukan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/work-in-progress/swa/{SWAId}/request-validation": {
+      "put": {
+        "tags": ["Work In Progress"],
+        "summary": "Meminta validasi untuk SWA oleh user tertentu",
+        "operationId": "ce9df9dde5e06463f99f5eb1b019c453",
+        "parameters": [
+          {
+            "name": "SWAId",
+            "in": "path",
+            "description": "ID dari Stop Work Authority (SWA)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": ["ValidatedBy"],
+                "properties": {
+                  "ValidatedBy": {
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "user-uuid"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Validator berhasil diset",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/work-in-progress/swa/{SWAId}/validate": {
+      "put": {
+        "tags": ["Work In Progress"],
+        "summary": "Melakukan validasi SWA oleh validator yang ditugaskan",
+        "operationId": "e2a7a58c5de98d2d5bc9ce3c4e1cd438",
+        "parameters": [
+          {
+            "name": "SWAId",
+            "in": "path",
+            "description": "ID dari Stop Work Authority (SWA)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": ["isValidation"],
+                "properties": {
+                  "isValidation": {
+                    "type": "boolean",
+                    "example": true
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "SWA berhasil divalidasi",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/work-in-progress/chart": {
+      "get": {
+        "tags": ["Work In Progress"],
+        "summary": "Get Work In Progress chart",
+        "description": "Chart of Work In Progress status grouped by date and filtered by user role",
+        "operationId": "acc3b5009d39432ac50e6d88cc701533",
+        "parameters": [
+          {
+            "name": "group_by",
+            "in": "query",
+            "description": "Grouping period",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["day", "week", "month", "year"],
+              "example": "month"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Chart data retrieved"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/working-permit/request/{inspectionId}": {
+      "put": {
+        "tags": ["Working Permit"],
+        "summary": "Request Working Permit",
+        "description": "Membuat atau memperbarui working permit berdasarkan InspectionId",
+        "operationId": "e563d655961d6bf65f9c30b98a20ac7f",
+        "parameters": [
+          {
+            "name": "inspectionId",
+            "in": "path",
+            "description": "ID dari Inspection",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": ["SendTo"],
+                "properties": {
+                  "SendTo": {
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "user_id_123"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Working permit berhasil diproses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/working-permit/by-user": {
+      "get": {
+        "tags": ["Working Permit"],
+        "summary": "Menampilkan daftar Inspection beserta Working Permit-nya",
+        "operationId": "0262ae4aebff524fe2f70d7534285cea",
+        "parameters": [
+          {
+            "name": "perPage",
+            "in": "query",
+            "description": "Jumlah item per halaman",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Daftar inspection beserta working permit berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/working-permit/{wpId}/upload": {
+      "post": {
+        "tags": ["Working Permit"],
+        "summary": "Upload file PDF ke Working Permit",
+        "description": "Upload file ke Working Permit",
+        "operationId": "1c282bd444cc65a1161f3fdbb8af362d",
+        "parameters": [
+          {
+            "name": "wpId",
+            "in": "path",
+            "description": "ID Working Permit",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": ["file", "UploadedBy"],
+                "properties": {
+                  "file": {
+                    "description": "File PDF maksimal 3MB",
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "UploadedBy": {
+                    "description": "User ID dari pengunggah (untuk verifikasi)",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Berhasil upload file",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "file_id": {
+                      "type": "string"
+                    },
+                    "filename": {
+                      "type": "string"
+                    },
+                    "path": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/working-permit/fileid/{wpId}": {
+      "get": {
+        "tags": ["Working Permit"],
+        "summary": "Get FileId by Working Permit ID",
+        "operationId": "e856b965c3dce69e0b1092b56846aa74",
+        "parameters": [
+          {
+            "name": "wpId",
+            "in": "path",
+            "description": "Working Permit ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "properties": {
+                        "FileId": {
+                          "type": "integer",
+                          "example": 123
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/working-permit/chart": {
+      "get": {
+        "tags": ["Working Permit"],
+        "summary": "Working Permit chart statistics",
+        "operationId": "7c28d6f9d46a3863fae5dee3da7b7644",
+        "parameters": [
+          {
+            "name": "group_by",
+            "in": "query",
+            "description": "Group by time",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["day", "week", "month", "year"],
+              "example": "month"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Chart data"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "description": "Use a bearer token to access this API",
+        "name": "Authorization",
+        "in": "header",
+        "bearerFormat": "JWT",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "API untuk mengelola Auth termasuk login dan logout"
+    },
+    {
+      "name": "Inspection",
+      "description": "API untuk mengelola Inspection"
+    },
+    {
+      "name": "Notification",
+      "description": "API untuk mengelola notifikasi"
+    },
+    {
+      "name": "User",
+      "description": "API untuk mengelola User"
+    },
+    {
+      "name": "Work In Progress",
+      "description": "Endpoints untuk data Work In Progress"
+    },
+    {
+      "name": "Working Permit",
+      "description": "API untuk mengelola Working Permit"
+    }
+  ]
+}

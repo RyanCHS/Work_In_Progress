@@ -1,0 +1,165 @@
+.trezo-form-group {
+  margin-bottom: 25px;
+  .v-field {
+    display: block;
+
+    .v-field__outline {
+      display: none;
+    }
+  }
+  .v-field--center-affix {
+    .v-label {
+      &.v-field-label {
+        left: -15px !important;
+      }
+    }
+  }
+  label.v-label.v-field-label.v-field-label--floating {
+    font-size: 10px !important;
+  }
+  .v-field__input {
+    padding-inline: 0;
+    .v-input__slot input::placeholder {
+      color: var(--blackColor) !important;
+    }
+    &::placeholder {
+      color: var(--blackColor) !important;
+    }
+  }
+  .v-field--variant-filled {
+    .v-field__overlay {
+      background-color: transparent;
+    }
+  }
+  .v-input--density-default {
+    .v-field--variant-filled {
+      .v-label {
+        &.v-field-label--floating {
+          top: 15px;
+        }
+      }
+    }
+  }
+  .v-label {
+    color: var(--blackColor) !important;
+    overflow: visible !important;
+    opacity: 100%;
+    margin-bottom: 12px !important;
+    font-size: 14px !important;
+
+    &.v-field-label {
+      contain: initial;
+      // margin: 3px 0px 0px 0px !important;
+    }
+  }
+  .v-text-field {
+    .v-field__input input {
+      margin-top: 0;
+    }
+  }
+  .v-textarea {
+    .v-label {
+      &.v-field-label {
+        margin-inline-start: 0 !important;
+      }
+    }
+  }
+  .v-input__control {
+    border: 1px solid #d5d9e2;
+    border-radius: 10px;
+    padding: 0 15px;
+  }
+  .v-input--density-default .v-field__input {
+    row-gap: 8px;
+    display: inline-block;
+  }
+  .v-input__details {
+    display: none;
+  }
+  .v-select__selection-text {
+    font-size: var(--fontSize) !important;
+  }
+  i {
+    top: 15px;
+    left: -38px;
+    line-height: 1;
+    color: #a9a9c8;
+    position: absolute;
+    font: {
+      size: 14px;
+      weight: normal;
+    }
+    &.ri-facebook-fill {
+      color: #3b5998;
+    }
+    &.ri-twitter-fill {
+      color: #00acee;
+    }
+    &.ri-linkedin-fill {
+      color: #0072b1;
+    }
+  }
+  .v-select__menu-icon {
+    left: auto !important;
+    right: 0;
+    font-size: 24px !important;
+  }
+  input[type="file"] {
+    border: 1px solid #b1b5c3;
+    border-radius: 10px;
+    padding: 15px 25px;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+  }
+  label {
+    span {
+      color: red;
+    }
+  }
+  .v-field__append-inner,
+  .v-field__clearable,
+  .v-field__prepend-inner {
+    padding: 0 !important;
+  }
+}
+.crypto-exchange-card {
+  .trezo-form-group {
+    margin: {
+      top: 15px;
+      bottom: 0;
+    }
+    .v-input__control {
+      background-color: var(--whiteColor) !important;
+      border: none;
+    }
+    .v-input--density-default {
+      .v-field__input {
+        font-weight: 700;
+        color: var(--blackColor);
+        min-height: auto;
+        padding-top: 25px;
+        padding-bottom: 3px;
+      }
+    }
+    .v-field--center-affix {
+      .v-label {
+        &.v-field-label {
+          left: 0 !important;
+        }
+      }
+    }
+    .v-label {
+      &.v-field-label {
+        margin-inline-start: 0 !important;
+        margin-inline-end: 0 !important;
+      }
+    }
+    .value {
+      top: 50%;
+      right: 20px;
+      position: absolute;
+      transform: translateY(-50%);
+    }
+  }
+}

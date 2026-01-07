@@ -1,0 +1,9 @@
+node_modules
+vendor
+.git
+tests
+*.log
+storage/*.key
+.github/workflows/*
+.deployignore
+set-env.bat

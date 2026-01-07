@@ -1,0 +1,8 @@
+@import "@vueup/vue-quill/dist/vue-quill.snow.css";
+@import "@vueup/vue-quill/dist/vue-quill.bubble.css";
+@import "swiper/css";
+@import "swiper/css/bundle";
+@import "swiper/css/pagination";
+@import "swiper/css/navigation";
+@import "remixicon/fonts/remixicon.css";
+@import "./scss/styles.css";

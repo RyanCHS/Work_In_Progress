@@ -1,0 +1,16 @@
+/.phpunit.cache
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/vendor
+/.vscode
+public/.DS_Store
+public/images/.DS_Store
+.DS_Store
+.env
+.env.dev
+.env.production
+

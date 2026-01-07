@@ -1,0 +1,114 @@
+/**
+ * @OA\Schema(
+ *     schema="FileInput",
+ *     type="object",
+ *     title="FileInput",
+ *     required={"FileId"},
+ *     @OA\Property(property="FileId", type="string", format="uuid", example="uuid-1234"),
+ *     @OA\Property(property="RelationId", type="string", format="uuid", nullable=true, example="uuid-5678"),
+ *     @OA\Property(property="UploadDate", type="string", format="date-time", nullable=true, example="2022-01-01T00:00:00Z"),
+ *     @OA\Property(property="Status", type="boolean", nullable=true, example=true),
+ *     @OA\Property(property="UploadedBy", type="string", format="uuid", nullable=true, example="uuid-9012")
+ * )
+ */
+
+ /**
+ * @OA\Schema(
+ *     schema="Inspection",
+ *     type="object",
+ *     title="Inspection",
+ *     required={"SWAPIC", "Location", "WorkType", "InspectionDate", "Status"},
+ *     @OA\Property(property="InspectionId", type="string", format="uuid"),
+ *     @OA\Property(property="SWAPIC", type="string", nullable=true),
+ *     @OA\Property(property="Location", type="string", nullable=true),
+ *     @OA\Property(property="WorkType", type="string", nullable=true),
+ *     @OA\Property(property="InspectionDate", type="string", format="date-time", nullable=true),
+ *     @OA\Property(property="InputForm", type="object", nullable=true),
+ *     @OA\Property(property="Status", type="boolean", nullable=true),
+ *     @OA\Property(property="CreatedBy", type="string", nullable=true),
+ *     @OA\Property(property="UpdatedBy", type="string", nullable=true),
+ * )
+ */
+
+ /**
+ * @OA\Schema(
+ *     schema="InspectionTemplate",
+ *     type="object",
+ *     title="InspectionTemplate",
+ *     required={"TemplateId"},
+ *     @OA\Property(property="TemplateId", type="string", format="uuid", example="uuid-1234"),
+ *     @OA\Property(property="TemplateDate", type="string", format="date-time", example="2022-01-01T00:00:00Z"),
+ *     @OA\Property(property="Content", type="object", example={"field1": "value1", "field2": "value2"}),
+ *     @OA\Property(property="Description", type="string", example="lorem ipsum"),
+ *     @OA\Property(property="IsActivated", type="boolean", example=true),
+ *     @OA\Property(property="CreatedBy", type="string", format="uuid", example="uuid-1234")
+ * )
+ */
+
+ /**
+ * @OA\Schema(
+ *     schema="User",
+ *     type="object",
+ *     title="User",
+ *     @OA\Property(property="UserId", type="string", example="uuid-1234"),
+ *     @OA\Property(property="Username", type="string", example="john_doe"),
+ *     @OA\Property(property="Email", type="string", example="john@example.com"),
+ *     @OA\Property(property="UserGroup", type="string", example="Safety Advisor"),
+ * )
+ */
+
+
+/**
+ * @OA\Schema(
+ *     schema="UserDetail",
+ *     type="object",
+ *     title="UserDetail",
+ *     required={"UserId"},
+ *     @OA\Property(property="UserId", type="string", format="uuid", example="uuid-1234"),
+ *     @OA\Property(property="Name", type="string", nullable=true, example="John Doe"),
+ *     @OA\Property(property="Email", type="string", nullable=true, example="john.doe@example.com"),
+ *     @OA\Property(property="Address", type="string", nullable=true, example="Jl. Contoh No. 123"),
+ *     @OA\Property(property="City", type="string", nullable=true, example="Jakarta"),
+ *     @OA\Property(property="Phone", type="string", nullable=true, example="+628123456789")
+ * )
+ */
+
+ /**
+ * @OA\Schema(
+ *     schema="UserGroup",
+ *     type="object",
+ *     title="UserGroup",
+ *     required={"Name"},
+ *     @OA\Property(property="Name", type="string", example="Admin")
+ * )
+ */
+
+ /**
+ * @OA\Schema(
+ *     schema="WorkInProgress",
+ *     type="object",
+ *     title="WorkInProgress",
+ *     required={"WIPId"},
+ *     @OA\Property(property="WIPId", type="string", format="uuid", example="uuid-1234"),
+ *     @OA\Property(property="InspectionId", type="string", format="uuid", nullable=true, example="uuid-5678"),
+ *     @OA\Property(property="FormContentId", type="string", format="uuid", nullable=true, example="uuid-6789"),
+ *     @OA\Property(property="WIPDate", type="string", format="date-time", nullable=true, example="2022-01-01T00:00:00Z"),
+ *     @OA\Property(property="InputForm", type="object", nullable=true, example={"step": "initial", "value": "test"}),
+ *     @OA\Property(property="Status", type="boolean", nullable=true, example=true),
+ *     @OA\Property(property="VerificationBy", type="string", format="uuid", nullable=true, example="uuid-9999")
+ * )
+ */
+
+ /**
+ * @OA\Schema(
+ *     schema="WorkingPermit",
+ *     type="object",
+ *     title="WorkingPermit",
+ *     required={"WPId"},
+ *     @OA\Property(property="WPId", type="string", format="uuid", example="uuid-1234"),
+ *     @OA\Property(property="WPDate", type="string", format="date-time", nullable=true, example="2022-01-01T00:00:00Z"),
+ *     @OA\Property(property="Status", type="boolean", nullable=true, example=true),
+ *     @OA\Property(property="VerificationBy", type="string", format="uuid", nullable=true, example="uuid-5678"),
+ *     @OA\Property(property="RequestBy", type="string", format="uuid", nullable=true, example="uuid-9012")
+ * )
+ */
