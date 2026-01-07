@@ -72,3 +72,42 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 ## Desain UI/UX
 🔗 [Lihat desain UI/UX di Figma](https://www.figma.com/design/o2PEHAH3MJsiSOIykFfPyf/Stop-Work-Authority?t=sEQNgdRucZZubtu0-1)
+
+
+## Diagram UML
+
+## Swimlane
+![Swimlane](docs/UML/Swimlane/Swimlnae_diagram.png)
+
+## Use Case Diagram
+![Use Case Diagram](docs/UML/Usecase_Diagram/usecase_diagram.png)
+
+## Activity Diagram
+![Activity Diagram Login](docs/UML/Activity_Diagram/1_login.png)
+![Activity Diagram Input Data Inspeksi](docs/UML/Activity_Diagram/2_input_data_inspeksi.png)
+![Activity Diagram View Data Inspeksi](docs/UML/Activity_Diagram/3_view_data_inspeksi.png)
+![Activity Diagram Kirim Permintaan WP](docs/UML/Activity_Diagram/4_kirim_permintaan_WP.png)
+![Activity Diagram Upload WP](docs/UML/Activity_Diagram/5_upload_WP.png)
+![Activity Diagram View WP](docs/UML/Activity_Diagram/6_view_WP.png)
+![Activity Diagram Verifikasi WIP](docs/UML/Activity_Diagram/7_verifikasi_WIP.png)
+![Activity Diagram View Verifikasi WIP](docs/UML/Activity_Diagram/8_view_verifikasi_WIP.png)
+![Activity Diagram Validasi Perbaikan SWA](docs/UML/Activity_Diagram/9_validasi_perbaikan_SWA.png)
+![Activity Diagram View Validasi Perbaikan SWA](docs/UML/Activity_Diagram/10_view_validasi_perbaikan_SWA.png)
+
+## Sequence Diagram
+![Sequence Diagram Login](docs/UML/Sequence_Diagram/1_Login.png)
+![Sequence Diagram Input Data Inspeksi](docs/UML/Sequence_Diagram/2_Input_Data_Inspeksi.png)
+![Sequence Diagram View Data Inspeksi](docs/UML/Sequence_Diagram/3_View_Data_Inspeksi.png)
+![Sequence Diagram Kirim Permintaan WP](docs/UML/Sequence_Diagram/4_Kirim_Permintaan_WP.png)
+![Sequence Diagram Upload WP](docs/UML/Sequence_Diagram/5_Upload_WP.png)
+![Sequence Diagram View WP](docs/UML/Sequence_Diagram/6_View_WP.png)
+![Sequence Diagram Verifikasi WIP](docs/UML/Sequence_Diagram/7_Verifikasi_WIP.png)
+![Sequence Diagram View Verifikasi WIP](docs/UML/Sequence_Diagram/8_View_Verifikasi_WIP.png)
+![Sequence Diagram Validasi Perbaikan SWA](docs/UML/Sequence_Diagram/9._Validasi_Perbaikan_SWA.png)
+![Sequence Diagram View Validasi Perbaikan SWA](docs/UML/Sequence_Diagram/10_View_Validasi_Perbaikan_SWA.png)
+
+## Class Diagram
+![Class Diagram](docs/UML/Class_Diagram/class_diagram.png)
+
+## ERD
+![ERD](docs/UML/ERD/ERD.jpg)
