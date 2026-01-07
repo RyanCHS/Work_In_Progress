@@ -4,7 +4,7 @@
       class="projects-list-card trezo-card border-radius d-block bg-white border-0 shadow-none"
     >
       <div class="v-card-header">
-        <h5 class="mb-0">User Management List test2</h5>
+        <h5 class="mb-0">User Management List</h5>
         <a href="#" class="add-btn" @click.prevent="currentView = 'create'">
           <i class="material-symbols-outlined"> add </i>
           Add New User
