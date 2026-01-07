@@ -64,3 +64,11 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+
+## Desain Wireframe
+🔗 [Lihat desain Wireframe di Figma](https://www.figma.com/design/ZxnuYehPo1T2KUNh8cULSz/SWA-Wireframe?node-id=0-1&t=sEQNgdRucZZubtu0-1)
+
+## Desain UI/UX
+🔗 [Lihat desain UI/UX di Figma](https://www.figma.com/design/o2PEHAH3MJsiSOIykFfPyf/Stop-Work-Authority?t=sEQNgdRucZZubtu0-1)
