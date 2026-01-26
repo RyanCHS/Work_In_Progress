@@ -2,7 +2,7 @@
   <div class="footer-area text-center mt-25 bg-white border-top-radius">
     <p>
       ©2025
-      <span>N2Indomedia Theme</span>
+      <span></span>
     </p>
   </div>
 </template>

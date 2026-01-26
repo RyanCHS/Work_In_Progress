@@ -12,6 +12,9 @@ class UserGroupSeeder extends Seeder
   {
     $data = [
       [
+        "Name" => "Administrator",
+      ],
+      [
         "Name" => "Pengawas K3",
       ],
       [
