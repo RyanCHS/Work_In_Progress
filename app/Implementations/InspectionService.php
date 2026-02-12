@@ -353,7 +353,107 @@ class InspectionService implements InspectionServiceInterface
     }
   }
 
-  public function viewInspectionChart(User $user, string $groupBy = 'day')
+  // public function viewInspectionChart(User $user, string $groupBy = 'day')
+  // {
+  //   try {
+  //       $query = Inspection::query();
+
+
+  //       if ($user->UserGroup === 'Safety Advisor') {
+  //           $query->where('CreatedBy', $user->UserId);
+  //       }
+
+  //       /*
+  //       |--------------------------------------------------------------------------
+  //       | Date Range
+  //       |--------------------------------------------------------------------------
+  //       */
+  //       switch ($groupBy) {
+  //           case 'week':
+  //               $query->whereBetween('CreatedAt', [
+  //                   Carbon::now()->startOfWeek(),
+  //                   Carbon::now()->endOfWeek(),
+  //               ]);
+  //               break;
+
+  //           case 'month':
+  //               $query->whereYear('CreatedAt', Carbon::now()->year);
+  //               break;
+
+  //           case 'year':
+  //               // tidak perlu filter, ambil semua tahun
+  //               break;
+
+  //           default: // day
+  //               $query->whereDate('CreatedAt', Carbon::today());
+  //               break;
+  //       }
+
+  //       /*
+  //       |--------------------------------------------------------------------------
+  //       | Grouping
+  //       |--------------------------------------------------------------------------
+  //       */
+  //       switch ($groupBy) {
+  //           case 'month':
+  //               $groupExpr = "DATE_FORMAT(CreatedAt, '%Y-%m')";
+  //               $labelExpr = "DATE_FORMAT(CreatedAt, '%b')";
+  //               break;
+
+  //           case 'year':
+  //               $groupExpr = "YEAR(CreatedAt)";
+  //               $labelExpr = "YEAR(CreatedAt)";
+  //               break;
+
+  //           default: // day & week (tetap per hari)
+  //               $groupExpr = "DATE(CreatedAt)";
+  //               $labelExpr = "DATE(CreatedAt)";
+  //               break;
+  //       }
+
+  //       $data = $query
+  //           ->select(
+  //               DB::raw("$groupExpr as period"),
+  //               DB::raw("$labelExpr as label"),
+  //               DB::raw("SUM(CASE WHEN IsDraft = 1 THEN 1 ELSE 0 END) as draft"),
+  //               DB::raw("SUM(CASE WHEN IsDraft = 0 THEN 1 ELSE 0 END) as final")
+  //           )
+  //           ->groupBy(DB::raw($groupExpr), DB::raw($labelExpr))
+  //           ->orderBy(DB::raw($groupExpr))
+  //           ->get();
+
+  //       /*
+  //       |--------------------------------------------------------------------------
+  //       | Summary
+  //       |--------------------------------------------------------------------------
+  //       */
+  //       $summary = [
+  //           'total' => (int) $data->sum(fn ($i) => $i->draft + $i->final),
+  //           'draft' => (int) $data->sum('draft'),
+  //           'final' => (int) $data->sum('final'),
+  //       ];
+
+  //       return ApiResponse::success([
+  //           'group_by' => $groupBy,
+  //           'labels' => $data->pluck('label')->values(),
+  //           'series' => [
+  //               [
+  //                   'name' => 'Draft',
+  //                   'data' => $data->pluck('draft')->map(fn ($v) => (int) $v),
+  //               ],
+  //               [
+  //                   'name' => 'Final',
+  //                   'data' => $data->pluck('final')->map(fn ($v) => (int) $v),
+  //               ],
+  //           ],
+  //           'summary' => $summary,
+  //       ]);
+  //   } catch (\Exception $e) {
+  //       return ApiResponse::error($e);
+  //   }
+  // }
+
+    public function viewInspectionChart(User $user, string $groupBy = 'day')
   {
     try {
         $query = Inspection::query();
@@ -405,7 +505,7 @@ class InspectionService implements InspectionServiceInterface
                 $labelExpr = "YEAR(CreatedAt)";
                 break;
 
-            default: // day & week (tetap per hari)
+            default: // day & week
                 $groupExpr = "DATE(CreatedAt)";
                 $labelExpr = "DATE(CreatedAt)";
                 break;
@@ -418,8 +518,10 @@ class InspectionService implements InspectionServiceInterface
                 DB::raw("SUM(CASE WHEN IsDraft = 1 THEN 1 ELSE 0 END) as draft"),
                 DB::raw("SUM(CASE WHEN IsDraft = 0 THEN 1 ELSE 0 END) as final")
             )
-            ->groupBy(DB::raw($groupExpr), DB::raw($labelExpr))
-            ->orderBy(DB::raw($groupExpr))
+            // PERBAIKAN: Group by menggunakan alias 'period' dan 'label'
+            // agar sinkron dengan MySQL/MariaDB Strict Mode
+            ->groupBy('period', 'label')
+            ->orderBy('period', 'asc')
             ->get();
 
         /*
@@ -452,7 +554,5 @@ class InspectionService implements InspectionServiceInterface
         return ApiResponse::error($e);
     }
   }
-
-
 
 }

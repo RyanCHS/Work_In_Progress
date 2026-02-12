@@ -37,7 +37,11 @@
                     {{
                       item.input_type === "date"
                         ? formatDate(item.answer)
-                        : item.answer
+                        : item.input_type === "checkbox"
+                          ? item.answer === true || item.answer === "true"
+                            ? item.options[0]
+                            : item.options[1]
+                          : item.answer
                     }}
                   </td>
 
@@ -92,7 +96,11 @@
                     {{
                       item.input_type === "date"
                         ? formatDate(item.answer)
-                        : item.answer
+                        : item.input_type === "checkbox"
+                          ? item.answer === true || item.answer === "true"
+                            ? item.options[0]
+                            : item.options[1]
+                          : item.answer
                     }}
                   </td>
                   <td>

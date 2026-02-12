@@ -18,7 +18,7 @@
             rel="stylesheet"
             href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
             />
-        <title>Laravel Vue</title>
+        <title>Work In Progress</title>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
        
     </head>

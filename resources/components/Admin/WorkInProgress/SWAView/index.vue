@@ -53,6 +53,11 @@ const loadData = () => {
       item.default = formatDate(item.default);
     }
 
+    if( item.input_type === "checkbox") {
+      item.answer = item.answer ? item.options[0] : item.options[1];
+      item.default = item.default ? item.options[0] : item.options[1];
+    }
+
     const matchedFile = props.FileInputs.find((f) => f.Keytag === item.key);
 
     const pdfUrl = matchedFile
